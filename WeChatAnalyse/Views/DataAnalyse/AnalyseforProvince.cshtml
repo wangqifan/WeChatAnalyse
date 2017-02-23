@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "AnalyseforProvince";
+}
+<div id="main" style="width:1200px;height:800px;"></div>
+
+<script src="~/Scripts/echarts.min.js"></script>
+<script src="~/Scripts/china.js"></script>
+ <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script>
+    var chart = echarts.init(document.getElementById('main'));
+   
+    $.ajax({
+        type: "post",
+        url: "../DataAnalyse/Province",
+        success: function (msg)
+        {
+            var server = [{
+                name: 'number',
+                type: 'map',
+                map: 'china',
+                data: msg
+            }]
+            option = {
+                title: {
+                    text: '好友分布',
+                    subtext: '',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: ['人数']
+                },
+                visualMap: {
+                    min: 0,
+                    max: 50,
+                    left: 'left',
+                    top: 'bottom',
+                    text: ['高', '低'],           // 文本，默认为数值文本
+                    calculable: true
+                },
+                toolbox: {
+                    show: true,
+                    orient: 'vertical',
+                    left: 'right',
+                    top: 'center',
+                    feature: {
+                        dataView: { readOnly: false },
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                series: [{
+                    name: '人数',
+                    type: 'map',
+                    map: 'china',
+                    data:msg
+                }]
+            };
+            chart.setOption(option);
+        }
+    })
+  
+</script>

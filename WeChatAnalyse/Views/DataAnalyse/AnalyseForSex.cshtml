@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewBag.Title = "AnalyseForSex";
+}
+<input type="text" value="@ViewData["man"]" id="man" style="display:none" />
+<input type="text" value="@ViewData["woman"]" id="woman" style="display:none" />
+<input type="text" value="@ViewData["other"]" id="other" style="display:none" />
+  <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 600px;height:400px;"></div>
+<script src="~/Scripts/echarts.min.js"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        var manvalue=$("#man").val();
+        var womanvalue=$("#woman").val();
+        var OTERVALUE=$("#other").val();
+        var myChart = echarts.init(document.getElementById('main'));
+        option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data: ['男', '女', '其他']
+            },
+            series: [
+                {
+                    name: '访问来源',
+                    type: 'pie',
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '30',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: [
+                        { value:manvalue,name: '男' },
+                        { value: womanvalue, name: '女' },
+                        { value: OTERVALUE, name: '其他' },
+                      
+                    ]
+                }
+            ]
+              
+        };
+        myChart.setOption(option);
+    }
+</script>
